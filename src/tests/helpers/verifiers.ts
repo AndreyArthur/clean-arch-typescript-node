@@ -25,6 +25,16 @@ const isUser = (
   return true;
 };
 
+const isPost = (post: Record<string, any>): boolean => {
+  if (!regexp.uuid.test(post.id)) return false;
+  if (!post.title) return false;
+  if (!post.content) return false;
+  if (!regexp.uuid.test(post.userId)) return false;
+  if (!isDate(post.createdAt) || !isDate(post.updatedAt)) return false;
+
+  return true;
+}
+
 const isSha256 = (hash: string): boolean => {
   if (!hash) return false;
   if (!regexp.sha265.test(hash)) return false;
@@ -35,5 +45,6 @@ const isSha256 = (hash: string): boolean => {
 export const verifiers = {
   isUser,
   isDate,
+  isPost,
   isSha256,
 };
