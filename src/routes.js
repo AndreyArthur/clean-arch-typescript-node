@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { data } from './sources/index.js';
+import { ensureAuthenticated } from './middlewares.js';
 import { date, string, uuid } from './helpers/index.js';
 
 export const router = (app) => {
@@ -83,11 +84,88 @@ export const router = (app) => {
 
     data.sessions.push(session);
 
-    console.log(data.sessions);
-
     return res.status(201).send({
       user: { ...user, password: undefined },
       token: session.token,
     });
   });
+
+  app.post('/posts/', ensureAuthenticated, (req, res) => {
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).send({
+        name: 'MissingFieldsError',
+        message: 'Fields \'title\' and \'content\' are required.',
+      });
+    }
+
+    const post = {
+      id: uuid.v4(),
+      title,
+      content,
+      userId: req.user.id,
+      createdAt: date.utc(),
+      updatedAt: date.utc(),
+    };
+
+    data.posts.push(post)
+
+    return res.status(201).send(post);
+  });
+
+  app.get('/posts/', ensureAuthenticated, (req, res) => {
+    const userPosts = data.posts
+      .filter((post) => post.userId === req.user.id)
+      .sort((postA, postB) => postB.createdAt - postA.createdAt);
+
+    return res.status(200).send(userPosts);
+  });
+
+  app.put('/posts/:id', ensureAuthenticated, (req, res) => {
+    const postId = req.params.id;
+    const postToBeUpdated = data.posts
+      .find((post) => (post.userId === req.user.id) && (postId === post.id));
+
+    if (!postToBeUpdated) {
+      return res.status(401).send({
+        name: 'PostNotFoundError',
+        message: 'Post not found or deleted.',
+      });
+    }
+
+    const { title, content } = req.body;
+
+    const updatedPost = {
+      ...postToBeUpdated,
+      title: title || postToBeUpdated.title,
+      content: content || postToBeUpdated.content,
+      updatedAt: date.utc(),
+    };
+
+    data.posts = data.posts
+      .filter((currentPost) => currentPost.id !== postToBeUpdated.id);
+
+    data.posts.push(updatedPost);
+
+    return res.status(200).send(updatedPost);
+  });
+
+  app.delete('/posts/:id', ensureAuthenticated, (req, res) => {
+    const postId = req.params.id;
+    const postToBeDeleted = data.posts
+      .find((post) => (post.userId === req.user.id) && (postId === post.id));
+
+    if (!postToBeDeleted) {
+      return res.status(401).send({
+        name: 'PostNotFoundError',
+        message: 'Post not found or already deleted.',
+      });
+    }
+
+    data.posts = data.posts
+      .filter((currentPost) => currentPost.id !== postToBeDeleted.id);
+
+    return res.status(204).send();
+  })
 };
