@@ -1,7 +1,11 @@
-import { date } from './helpers/date.js';
-import { data } from './sources/index.js';
+import { Request, Response, NextFunction} from 'express';
 
-export const ensureAuthenticated = (req, res, next) => {
+import { date } from '@/helpers/date';
+import { data } from '@/sources/index';
+
+export const ensureAuthenticated = (
+  req: Request, res: Response, next: NextFunction
+) => {
   const authorization = req.headers['session-token'];
 
   if (!authorization) {
@@ -22,7 +26,7 @@ export const ensureAuthenticated = (req, res, next) => {
     });
   }
 
-  if (date.utc() > session.expirationTime) {
+  if (date.utc().getTime() > session.expirationTime) {
     return res.status(401).send({
       name: 'ExpiredTokenError',
       message: 'Your token is expired, please create a new session.',
@@ -40,7 +44,7 @@ export const ensureAuthenticated = (req, res, next) => {
     });
   }
 
-  req.user = user;
+  (req as any).user = user;
 
   next();
 };

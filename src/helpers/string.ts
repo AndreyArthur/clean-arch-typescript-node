@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 
-const random = (chars, length) => {
+const random = (chars: string, length: number) => {
   let result = '';
   const charactersLength = chars.length;
 

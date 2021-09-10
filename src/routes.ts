@@ -1,10 +1,11 @@
+import { Express } from 'express';
 import bcrypt from 'bcrypt';
 
-import { data } from './sources/index.js';
-import { ensureAuthenticated } from './middlewares.js';
-import { date, string, uuid } from './helpers/index.js';
+import { data } from '@/sources';
+import { ensureAuthenticated } from '@/middlewares';
+import { date, string, uuid } from '@/helpers';
 
-export const router = (app) => {
+export const router = (app: Express) => {
   app.post('/users/', async (req, res) => {
     const { username, password } = req.body;
 
@@ -114,7 +115,7 @@ export const router = (app) => {
       id: uuid.v4(),
       title,
       content,
-      userId: req.user.id,
+      userId: (req as any).user.id,
       createdAt: date.utc(),
       updatedAt: date.utc(),
     };
@@ -130,8 +131,10 @@ export const router = (app) => {
 
   app.get('/posts/', ensureAuthenticated, (req, res) => {
     const userPosts = data.posts
-      .filter((post) => post.userId === req.user.id)
-      .sort((postA, postB) => postB.createdAt - postA.createdAt)
+      .filter((post) => post.userId === (req as any).user.id)
+      .sort((postA, postB) => (
+        postB.createdAt.getTime() - postA.createdAt.getTime()
+      ))
       .map((post) => ({
         ...post,
         createdAt: post.createdAt.toISOString(),
@@ -144,7 +147,9 @@ export const router = (app) => {
   app.put('/posts/:id', ensureAuthenticated, (req, res) => {
     const postId = req.params.id;
     const postToBeUpdated = data.posts
-      .find((post) => (post.userId === req.user.id) && (postId === post.id));
+      .find((post) => (
+        (post.userId === (req as any).user.id) && (postId === post.id)
+      ));
 
     if (!postToBeUpdated) {
       return res.status(401).send({
@@ -177,7 +182,9 @@ export const router = (app) => {
   app.delete('/posts/:id', ensureAuthenticated, (req, res) => {
     const postId = req.params.id;
     const postToBeDeleted = data.posts
-      .find((post) => (post.userId === req.user.id) && (postId === post.id));
+      .find((post) => (
+        (post.userId === (req as any).user.id) && (postId === post.id)
+      ));
 
     if (!postToBeDeleted) {
       return res.status(401).send({

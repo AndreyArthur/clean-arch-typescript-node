@@ -1,4 +1,4 @@
-import { string } from './index.js';
+import { string } from '@/helpers';
 
 export const uuid = {
   v4: () => {
