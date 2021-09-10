@@ -26,7 +26,7 @@ export const ensureAuthenticated = (
     });
   }
 
-  if (date.utc().getTime() > session.expirationTime) {
+  if (date.utc().getTime() >= session.expirationTime) {
     return res.status(401).send({
       name: 'ExpiredTokenError',
       message: 'Your token is expired, please create a new session.',
