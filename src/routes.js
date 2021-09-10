@@ -36,7 +36,12 @@ export const router = (app) => {
 
     data.users.push(user);
 
-    return res.status(201).send({ ...user, password: undefined });
+    return res.status(201).send({
+      ...user,
+      password: undefined,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    });
   });
 
   app.post('/sessions/', async (req, res) => {
@@ -85,7 +90,12 @@ export const router = (app) => {
     data.sessions.push(session);
 
     return res.status(201).send({
-      user: { ...user, password: undefined },
+      user: {
+        ...user,
+        password: undefined,
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString(),
+      },
       token: session.token,
     });
   });
@@ -111,13 +121,22 @@ export const router = (app) => {
 
     data.posts.push(post)
 
-    return res.status(201).send(post);
+    return res.status(201).send({
+      ...post,
+      createdAt: post.createdAt.toISOString(),
+      updatedAt: post.updatedAt.toISOString(),
+    });
   });
 
   app.get('/posts/', ensureAuthenticated, (req, res) => {
     const userPosts = data.posts
       .filter((post) => post.userId === req.user.id)
-      .sort((postA, postB) => postB.createdAt - postA.createdAt);
+      .sort((postA, postB) => postB.createdAt - postA.createdAt)
+      .map((post) => ({
+        ...post,
+        createdAt: post.createdAt.toISOString(),
+        updatedAt: post.updatedAt.toISOString(),
+      }));
 
     return res.status(200).send(userPosts);
   });
@@ -148,7 +167,11 @@ export const router = (app) => {
 
     data.posts.push(updatedPost);
 
-    return res.status(200).send(updatedPost);
+    return res.status(200).send({
+      ...updatedPost,
+      createdAt: updatedPost.createdAt.toISOString(),
+      updatedAt: updatedPost.updatedAt.toISOString(),
+    });
   });
 
   app.delete('/posts/:id', ensureAuthenticated, (req, res) => {
