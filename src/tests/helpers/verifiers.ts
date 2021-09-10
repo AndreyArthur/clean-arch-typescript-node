@@ -1,5 +1,6 @@
 const regexp = {
   uuid: /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+  sha265: /^[a-f0-9]{64}$/gi,
 };
 
 const isDate = (date: Date): boolean => {
@@ -24,7 +25,15 @@ const isUser = (
   return true;
 };
 
+const isSha256 = (hash: string): boolean => {
+  if (!hash) return false;
+  if (!regexp.sha265.test(hash)) return false;
+
+  return true;
+}
+
 export const verifiers = {
   isUser,
   isDate,
+  isSha256,
 };
