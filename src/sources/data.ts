@@ -1,10 +1,4 @@
-type User = {
-  id: string;
-  username: string;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { User } from '@/entities';
 
 type Session = {
   id: string;
