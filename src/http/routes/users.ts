@@ -1,8 +1,11 @@
 import { Express } from 'express';
 
+import { CreateUserControllerFactory } from '@/factories';
 import { ControllerConverter } from '@/converters';
-import { CreateUserController } from '@/presentation/controllers';
 
 export const usersRouter = (app: Express): void => {
-  app.post('/users/', ControllerConverter.convert(new CreateUserController()));
+  app.post(
+    '/users/',
+    ControllerConverter.convert(CreateUserControllerFactory.create()),
+  );
 };
