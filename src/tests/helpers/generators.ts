@@ -29,7 +29,7 @@ const sha256 = (): string => {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
   return string.random(chars, 64);
-}
+};
 
 export const generators = {
   username,

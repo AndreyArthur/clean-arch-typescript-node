@@ -23,7 +23,7 @@ describe('/users/ HTTP', () => {
 
     expect(verifiers.isUser(user, false)).toBe(true);
     expect(status).toBe(201);
-  })
+  });
 
   it('should return an error because fields are missing', async () => {
     {

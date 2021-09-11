@@ -5,7 +5,7 @@ import { data } from '@/sources';
 import { ensureAuthenticated } from '@/middlewares';
 import { date, string, uuid } from '@/helpers';
 
-export const router = (app: Express) => {
+export const router = (app: Express): void => {
   app.post('/users/', async (req, res) => {
     const { username, password } = req.body;
 
@@ -120,7 +120,7 @@ export const router = (app: Express) => {
       updatedAt: date.utc(),
     };
 
-    data.posts.push(post)
+    data.posts.push(post);
 
     return res.status(201).send({
       ...post,
@@ -197,5 +197,5 @@ export const router = (app: Express) => {
       .filter((currentPost) => currentPost.id !== postToBeDeleted.id);
 
     return res.status(204).send();
-  })
+  });
 };

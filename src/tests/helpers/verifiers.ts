@@ -33,14 +33,14 @@ const isPost = (post: Record<string, any>): boolean => {
   if (!isDate(post.createdAt) || !isDate(post.updatedAt)) return false;
 
   return true;
-}
+};
 
 const isSha256 = (hash: string): boolean => {
   if (!hash) return false;
   if (!regexp.sha265.test(hash)) return false;
 
   return true;
-}
+};
 
 export const verifiers = {
   isUser,

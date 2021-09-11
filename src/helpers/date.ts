@@ -1,5 +1,5 @@
 export const date = {
-  utc: () => {
+  utc: (): Date => {
     const now = new Date();
 
     return new Date(

@@ -1,7 +1,7 @@
 import { string } from '@/helpers';
 
 export const uuid = {
-  v4: () => {
+  v4: (): string => {
     const chars = 'abcdef0123456789';
 
     return `${
@@ -14,6 +14,6 @@ export const uuid = {
       string.random(chars, 4)
     }-${
       string.random(chars, 12)
-    }`
+    }`;
   },
 };

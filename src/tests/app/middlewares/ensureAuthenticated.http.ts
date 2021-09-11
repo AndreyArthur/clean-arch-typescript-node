@@ -28,7 +28,7 @@ const createSession = async (expiration?: number): Promise<string> => {
   data.sessions.push(session);
 
   return session.token;
-}
+};
 
 describe('ensureAuthenticated Middleware', () => {
   afterEach(() => {
@@ -59,7 +59,7 @@ describe('ensureAuthenticated Middleware', () => {
     ));
 
     const { body, status } = await request(app)
-      .get(endpoint)
+      .get(endpoint);
 
     expect(status).toBe(401);
     expect(body.name).toBe('MissingTokenError');
@@ -120,6 +120,6 @@ describe('ensureAuthenticated Middleware', () => {
 
       expect(status).toBe(401);
       expect(body.name).toBe('MissingUserError');
-    }
+    },
   );
 });

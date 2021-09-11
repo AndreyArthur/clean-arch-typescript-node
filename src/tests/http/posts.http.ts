@@ -26,14 +26,14 @@ const createSession = async (): Promise<Record<string, any>> => {
   data.sessions.push(session);
 
   return { user, session };
-}
+};
 
 describe('/posts/ HTTP', () => {
   afterEach(() => {
     data.users = [];
     data.sessions = [];
     data.posts = [];
-  })
+  });
 
   it('should create a post successfully', async () => {
     const { session: { token } } = await createSession();

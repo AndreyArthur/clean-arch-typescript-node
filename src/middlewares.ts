@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { date } from '@/helpers/date';
 import { data } from '@/sources/index';
 
 export const ensureAuthenticated = (
-  req: Request, res: Response, next: NextFunction
-) => {
+  req: Request, res: Response, next: NextFunction,
+): Response | void => {
   const authorization = req.headers['session-token'];
 
   if (!authorization) {
