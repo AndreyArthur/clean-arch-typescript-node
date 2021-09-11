@@ -1,7 +1,7 @@
 import request from 'supertest';
 
 import { generators } from '@/tests/helpers';
-import { app } from '@/app';
+import { app } from '@/http';
 import { verifiers } from '../helpers/verifiers';
 import { data } from '@/sources';
 import { date, uuid } from '@/helpers';

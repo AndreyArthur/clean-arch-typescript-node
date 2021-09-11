@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { date } from '@/helpers/date';
-import { data } from '@/sources/index';
+import { data } from '@/sources';
 
 export const ensureAuthenticated = (
   req: Request, res: Response, next: NextFunction,

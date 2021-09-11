@@ -1,6 +1,6 @@
 import { Express } from 'express';
 
-import { usersRouter, postsRouter, sessionsRouter } from '@/routes';
+import { usersRouter, postsRouter, sessionsRouter } from '@/http/routes';
 
 export const router = (app: Express): void => {
   usersRouter(app);

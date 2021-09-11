@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { date, uuid } from '@/helpers';
 import { data } from '@/sources';
 import { generators, verifiers } from '@/tests/helpers';
-import { app } from '@/app';
+import { app } from '@/http';
 
 describe('/sessions/ HTTP', () => {
   afterEach(() => {

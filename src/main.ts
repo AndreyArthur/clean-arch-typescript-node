@@ -1,3 +1,3 @@
-import { app } from '@/app';
+import { server } from '@/http';
 
-app.listen(3333);
+server.start();

@@ -1,7 +1,7 @@
 import { Express } from 'express';
 
 import { data } from '@/sources';
-import { ensureAuthenticated } from '@/middlewares';
+import { ensureAuthenticated } from '@/http/middlewares';
 import { date, uuid } from '@/helpers';
 
 export const postsRouter = (app: Express): void => {

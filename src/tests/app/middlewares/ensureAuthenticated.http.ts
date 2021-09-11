@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
 import request from 'supertest';
 
-import { app } from '@/app';
+import { app, ensureAuthenticated } from '@/http';
 import { data } from '@/sources';
-import { ensureAuthenticated } from '@/middlewares';
 import { date, string, uuid } from '@/helpers';
 import { generators } from '@/tests/helpers';
 

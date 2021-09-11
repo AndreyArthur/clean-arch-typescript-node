@@ -4,7 +4,7 @@ import request from 'supertest';
 import { data } from '@/sources';
 import { date, string, uuid } from '@/helpers';
 import { generators, verifiers } from '@/tests/helpers';
-import { app } from '@/app';
+import { app } from '@/http';
 
 const createSession = async (): Promise<Record<string, any>> => {
   const user = {
