@@ -13,7 +13,7 @@ type CreateUserDTO = {
 export class CreateUserService {
   public async execute({ username, password }: CreateUserDTO): Promise<User> {
     if (!username || !password) {
-      throw new MissingFieldsError(['username', 'password']);
+      throw new MissingFieldsError('username', 'password');
     }
 
     const userExists = data.users.find((currentUser) => (

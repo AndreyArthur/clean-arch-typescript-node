@@ -1,7 +1,7 @@
 import { AppError } from '@/exceptions/App';
 
 export class MissingFieldsError extends AppError {
-  constructor(fields: string[]) {
+  constructor(...fields: string[]) {
     const formatFields = (originalFields: string[]): string => {
       if (originalFields.length === 1) return `'${originalFields[0]}'`;
 
