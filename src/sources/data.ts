@@ -1,11 +1,4 @@
-import { User } from '@/entities';
-
-type Session = {
-  id: string;
-  userId: string;
-  token: string;
-  expirationTime: number;
-};
+import { User, Session } from '@/entities';
 
 type Post = {
   id: string;

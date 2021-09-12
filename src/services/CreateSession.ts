@@ -1,9 +1,7 @@
-import bcrypt from 'bcrypt';
-
 import { User } from '@/entities';
 import { LoginFailedError, MissingFieldsError } from '@/exceptions';
-import { data } from '@/sources';
-import { date, string, uuid } from '@/helpers';
+import { SessionsRepository, UsersRepository } from '@/repositories';
+import { EncrypterProvider } from '@/providers';
 
 type CreateSessionDTO = {
   username: string;
@@ -15,7 +13,29 @@ type CreateSessionResult = {
   token: string;
 };
 
+type CreateSessionDeps = {
+  repositories: {
+    sessions: SessionsRepository;
+    users: UsersRepository;
+  };
+  providers: {
+    encrypter: EncrypterProvider;
+  }
+};
+
 export class CreateSessionService {
+  private readonly usersRepository: UsersRepository;
+
+  private readonly sessionsRepository: SessionsRepository;
+
+  private readonly encrypter: EncrypterProvider;
+
+  constructor(deps: CreateSessionDeps) {
+    this.usersRepository = deps.repositories.users;
+    this.sessionsRepository = deps.repositories.sessions;
+    this.encrypter = deps.providers.encrypter;
+  }
+
   public async execute(
     { username, password }: CreateSessionDTO,
   ): Promise<CreateSessionResult> {
@@ -23,30 +43,25 @@ export class CreateSessionService {
       throw new MissingFieldsError('username', 'password');
     }
 
-    const user = data.users.find((currentUser) => (
-      currentUser.username === username
-    ));
+    const user = await this.usersRepository.findByUsername(username);
 
     if (!user) throw new LoginFailedError();
 
-    const isCorrectPassword = await bcrypt.compare(password, user.password);
+    const isCorrectPassword = await this.encrypter.compare(
+      password, user.password,
+    );
 
     if (!isCorrectPassword) throw new LoginFailedError();
 
-    data.sessions = data.sessions.filter((currentSession) => (
-      currentSession.userId !== user.id
-    ));
+    await this.sessionsRepository.deleteUserSession(user.id);
 
     const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
-
-    const session = {
-      id: uuid.v4(),
+    const session = this.sessionsRepository.create({
       userId: user.id,
-      token: string.sha256(),
-      expirationTime: date.utc().getTime() + ONE_DAY_IN_MILLISECONDS,
-    };
+      expiresIn: ONE_DAY_IN_MILLISECONDS,
+    });
 
-    data.sessions.push(session);
+    await this.sessionsRepository.save(session);
 
     return {
       user,
