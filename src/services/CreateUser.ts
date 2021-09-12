@@ -1,36 +1,47 @@
-import bcrypt from 'bcrypt';
-
-import { date, uuid } from '@/helpers';
-import { data } from '@/sources';
 import { User } from '@/entities';
 import { MissingFieldsError, UserExistsError } from '@/exceptions';
+import { UsersRepository } from '@/repositories';
+import { EncrypterProvider } from '@/providers';
 
 type CreateUserDTO = {
   username: string;
   password: string;
 };
 
+type CreateUserDeps = {
+  repositories: {
+    users: UsersRepository;
+  };
+  providers: {
+    encrypter: EncrypterProvider;
+  };
+};
+
 export class CreateUserService {
+  private readonly usersRepository: UsersRepository;
+
+  private readonly encrypter: EncrypterProvider;
+
+  constructor(deps: CreateUserDeps) {
+    this.usersRepository = deps.repositories.users;
+    this.encrypter = deps.providers.encrypter;
+  }
+
   public async execute({ username, password }: CreateUserDTO): Promise<User> {
     if (!username || !password) {
       throw new MissingFieldsError('username', 'password');
     }
 
-    const userExists = data.users.find((currentUser) => (
-      currentUser.username === username
-    ));
+    const userExists = await this.usersRepository.findByUsername(username);
 
     if (userExists) throw new UserExistsError();
 
-    const user = {
-      id: uuid.v4(),
+    const user = this.usersRepository.create({
       username,
-      password: await bcrypt.hash(password, 10),
-      createdAt: date.utc(),
-      updatedAt: date.utc(),
-    };
+      password: await this.encrypter.hash(password),
+    });
 
-    data.users.push(user);
+    await this.usersRepository.save(user);
 
     return user;
   }
