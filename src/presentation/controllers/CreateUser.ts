@@ -1,10 +1,10 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
-import { CreateUserService } from '@/application/services';
+import { CreateUserUseCase } from '@/application/useCases';
 
 export class CreateUserController implements Controller {
-  private readonly createUser: CreateUserService;
+  private readonly createUser: CreateUserUseCase;
 
-  constructor(createUser: CreateUserService) {
+  constructor(createUser: CreateUserUseCase) {
     this.createUser = createUser;
   }
 

@@ -17,7 +17,7 @@ type CreateUserDeps = {
   };
 };
 
-export class CreateUserService {
+export class CreateUserUseCase {
   private readonly usersRepository: UsersRepository;
 
   private readonly encrypter: EncrypterProvider;

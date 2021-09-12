@@ -1,14 +1,14 @@
 import { EncrypterAdapter } from '@/infra/adapters';
 import { SessionsRepositoryMemory, UsersRepositoryMemory } from '@/infra/repositories';
 import { CreateSessionController } from '@/presentation/controllers';
-import { CreateSessionService } from '@/application/services';
+import { CreateSessionUseCase } from '@/application/useCases';
 
 export class CreateSessionControllerFactory {
   public static create(): CreateSessionController {
     const usersRepository = new UsersRepositoryMemory();
     const sessionsRepository = new SessionsRepositoryMemory();
     const encrypter = new EncrypterAdapter();
-    const createSessionService = new CreateSessionService({
+    const createSessionUseCase = new CreateSessionUseCase({
       repositories: {
         users: usersRepository,
         sessions: sessionsRepository,
@@ -18,7 +18,7 @@ export class CreateSessionControllerFactory {
       },
     });
     const createSessionController = new CreateSessionController(
-      createSessionService,
+      createSessionUseCase,
     );
 
     return createSessionController;

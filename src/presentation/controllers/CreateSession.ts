@@ -1,10 +1,10 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
-import { CreateSessionService } from '@/application/services';
+import { CreateSessionUseCase } from '@/application/useCases';
 
 export class CreateSessionController implements Controller {
-  private readonly createSession: CreateSessionService;
+  private readonly createSession: CreateSessionUseCase;
 
-  constructor(createSession: CreateSessionService) {
+  constructor(createSession: CreateSessionUseCase) {
     this.createSession = createSession;
   }
 

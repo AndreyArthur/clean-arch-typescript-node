@@ -29,7 +29,7 @@ type CreateSessionDeps = {
   }
 };
 
-export class CreateSessionService {
+export class CreateSessionUseCase {
   private readonly usersRepository: UsersRepository;
 
   private readonly sessionsRepository: SessionsRepository;

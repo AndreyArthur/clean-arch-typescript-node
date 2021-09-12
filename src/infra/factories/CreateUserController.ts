@@ -1,13 +1,13 @@
 import { EncrypterAdapter } from '@/infra/adapters';
 import { UsersRepositoryMemory } from '@/infra/repositories';
 import { CreateUserController } from '@/presentation/controllers';
-import { CreateUserService } from '@/application/services';
+import { CreateUserUseCase } from '@/application/useCases';
 
 export class CreateUserControllerFactory {
   public static create(): CreateUserController {
     const usersRepository = new UsersRepositoryMemory();
     const encrypter = new EncrypterAdapter();
-    const createUserService = new CreateUserService({
+    const createUserUseCase = new CreateUserUseCase({
       providers: {
         encrypter,
       },
@@ -15,7 +15,7 @@ export class CreateUserControllerFactory {
         users: usersRepository,
       },
     });
-    const createUserController = new CreateUserController(createUserService);
+    const createUserController = new CreateUserController(createUserUseCase);
 
     return createUserController;
   }
