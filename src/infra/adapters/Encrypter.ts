@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { EncrypterProvider } from '@/providers';
+import { EncrypterProvider } from '@/application/providers';
 
 export class EncrypterAdapter implements EncrypterProvider {
   public async hash(text: string): Promise<string> {

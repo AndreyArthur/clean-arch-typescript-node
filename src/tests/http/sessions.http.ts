@@ -1,10 +1,10 @@
 import request from 'supertest';
 import bcrypt from 'bcrypt';
 
-import { date, uuid } from '@/helpers';
-import { data } from '@/sources';
+import { date, uuid } from '@/infra/helpers';
+import { data } from '@/infra/sources';
 import { generators, verifiers } from '@/tests/helpers';
-import { app } from '@/http';
+import { app } from '@/main/app';
 
 describe('/sessions/ HTTP', () => {
   afterEach(() => {

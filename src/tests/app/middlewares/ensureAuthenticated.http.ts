@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import request from 'supertest';
 
-import { app, ensureAuthenticated } from '@/http';
-import { data } from '@/sources';
-import { date, string, uuid } from '@/helpers';
+import { app } from '@/main/app';
+import { ensureAuthenticated } from '@/main/middlewares';
+import { data } from '@/infra/sources';
+import { date, string, uuid } from '@/infra/helpers';
 import { generators } from '@/tests/helpers';
 
 const createSession = async (expiration?: number): Promise<string> => {

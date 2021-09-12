@@ -1,7 +1,9 @@
-import { Session } from '@/entities';
-import { SessionsRepository, SessionsRepositoryCreateDTO } from '@/repositories';
-import { date, string, uuid } from '@/helpers';
-import { data } from '@/sources';
+import { Session } from '@/core/entities';
+import {
+  SessionsRepository, SessionsRepositoryCreateDTO,
+} from '@/application/repositories';
+import { date, string, uuid } from '@/infra/helpers';
+import { data } from '@/infra/sources';
 
 export class SessionsRepositoryMemory implements SessionsRepository {
   public create({ userId, expiresIn }: SessionsRepositoryCreateDTO): Session {

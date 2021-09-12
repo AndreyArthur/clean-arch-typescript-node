@@ -1,7 +1,9 @@
-import { User } from '@/entities';
-import { date, uuid } from '@/helpers';
-import { UsersRepository, UsersRepositoryCreateDTO } from '@/repositories';
-import { data } from '@/sources';
+import { User } from '@/core/entities';
+import { date, uuid } from '@/infra/helpers';
+import {
+  UsersRepository, UsersRepositoryCreateDTO,
+} from '@/application/repositories';
+import { data } from '@/infra/sources';
 
 export class UsersRepositoryMemory implements UsersRepository {
   public create({ username, password }: UsersRepositoryCreateDTO): User {

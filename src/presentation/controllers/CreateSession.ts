@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
-import { CreateSessionService } from '@/services';
+import { CreateSessionService } from '@/application/services';
 
 export class CreateSessionController implements Controller {
   private readonly createSession: CreateSessionService;

@@ -1,10 +1,9 @@
 import request from 'supertest';
 
-import { generators } from '@/tests/helpers';
-import { app } from '@/http';
-import { verifiers } from '../helpers/verifiers';
-import { data } from '@/sources';
-import { date, uuid } from '@/helpers';
+import { generators, verifiers } from '@/tests/helpers';
+import { app } from '@/main/app';
+import { data } from '@/infra/sources';
+import { date, uuid } from '@/infra/helpers';
 
 describe('/users/ HTTP', () => {
   afterEach(() => { data.users = []; });

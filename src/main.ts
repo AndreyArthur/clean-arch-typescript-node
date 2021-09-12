@@ -1,3 +1,3 @@
-import { server } from '@/http';
+import { server } from '@/main/server';
 
 server.start();

@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import request from 'supertest';
 
-import { data } from '@/sources';
-import { date, string, uuid } from '@/helpers';
+import { data } from '@/infra/sources';
+import { date, string, uuid } from '@/infra/helpers';
 import { generators, verifiers } from '@/tests/helpers';
-import { app } from '@/http';
+import { app } from '@/main/app';
 
 const createSession = async (): Promise<Record<string, any>> => {
   const user = {

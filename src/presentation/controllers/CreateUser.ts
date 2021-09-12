@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
-import { CreateUserService } from '@/services';
+import { CreateUserService } from '@/application/services';
 
 export class CreateUserController implements Controller {
   private readonly createUser: CreateUserService;

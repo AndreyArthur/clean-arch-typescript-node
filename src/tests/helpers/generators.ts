@@ -1,4 +1,4 @@
-import { string } from '@/helpers';
+import { string } from '@/infra/helpers';
 
 const username = (): string => {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
