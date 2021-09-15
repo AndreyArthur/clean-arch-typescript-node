@@ -1,4 +1,4 @@
-import { User, Session } from '@/core/entities';
+import { User, Session, Post } from '@/core/entities';
 import { date, string, uuid } from '@/infra/helpers';
 
 const username = (): string => {
@@ -62,6 +62,15 @@ const session = (givenSession?: Partial<Session>): Session => {
   };
 };
 
+const post = (givenPost?: Partial<Post>): Post => ({
+  id: givenPost?.id || uuid.v4(),
+  title: givenPost?.title || title(),
+  content: givenPost?.content || content(),
+  userId: givenPost?.userId || uuid.v4(),
+  createdAt: givenPost?.createdAt || date.utc(),
+  updatedAt: givenPost?.updatedAt || date.utc(),
+});
+
 export const generators = {
   username,
   password,
@@ -69,5 +78,6 @@ export const generators = {
   user,
   content,
   sha256,
+  post,
   session,
 };
