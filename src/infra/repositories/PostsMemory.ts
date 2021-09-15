@@ -21,4 +21,12 @@ export class PostsRepositoryMemory implements PostsRepository {
   public async save(post: Post): Promise<void> {
     await Promise.resolve(data.posts.push(post));
   }
+
+  public async findManyByUserId(userId: string): Promise<Post[]> {
+    const posts = await Promise.resolve(
+      data.posts.filter((post) => post.userId === userId),
+    );
+
+    return posts;
+  }
 }

@@ -9,4 +9,5 @@ export type PostsRepositoryCreateDTO = {
 export interface PostsRepository {
   create: ({ userId, content, title }: PostsRepositoryCreateDTO) => Post;
   save: (post: Post) => Promise<void>;
+  findManyByUserId: (userId: string) => Promise<Post[]>;
 }
