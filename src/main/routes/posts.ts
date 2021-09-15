@@ -4,7 +4,9 @@ import { data } from '@/infra/sources';
 import { ensureAuthenticated } from '@/main/middlewares';
 import { date } from '@/infra/helpers';
 import { ControllerConverter } from '@/main/converters';
-import { CreatePostControllerFactory } from '@/infra/factories';
+import {
+  CreatePostControllerFactory, ListPostsControllerFactory,
+} from '@/infra/factories';
 
 export const postsRouter = (app: Express): void => {
   app.post(
@@ -12,20 +14,10 @@ export const postsRouter = (app: Express): void => {
     ControllerConverter.convert(CreatePostControllerFactory.create()),
   );
 
-  app.get('/posts/', ensureAuthenticated, (req, res) => {
-    const userPosts = data.posts
-      .filter((post) => post.userId === (req as any).user.id)
-      .sort((postA, postB) => (
-        postB.createdAt.getTime() - postA.createdAt.getTime()
-      ))
-      .map((post) => ({
-        ...post,
-        createdAt: post.createdAt.toISOString(),
-        updatedAt: post.updatedAt.toISOString(),
-      }));
-
-    return res.status(200).send(userPosts);
-  });
+  app.get(
+    '/posts/',
+    ControllerConverter.convert(ListPostsControllerFactory.create()),
+  );
 
   app.put('/posts/:id', ensureAuthenticated, (req, res) => {
     const postId = req.params.id;
