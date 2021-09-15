@@ -2,36 +2,15 @@ import { Express } from 'express';
 
 import { data } from '@/infra/sources';
 import { ensureAuthenticated } from '@/main/middlewares';
-import { date, uuid } from '@/infra/helpers';
+import { date } from '@/infra/helpers';
+import { ControllerConverter } from '@/main/converters';
+import { CreatePostControllerFactory } from '@/infra/factories';
 
 export const postsRouter = (app: Express): void => {
-  app.post('/posts/', ensureAuthenticated, (req, res) => {
-    const { title, content } = req.body;
-
-    if (!title || !content) {
-      return res.status(400).send({
-        name: 'MissingFieldsError',
-        message: 'Fields \'title\' and \'content\' are required.',
-      });
-    }
-
-    const post = {
-      id: uuid.v4(),
-      title,
-      content,
-      userId: (req as any).user.id,
-      createdAt: date.utc(),
-      updatedAt: date.utc(),
-    };
-
-    data.posts.push(post);
-
-    return res.status(201).send({
-      ...post,
-      createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString(),
-    });
-  });
+  app.post(
+    '/posts/',
+    ControllerConverter.convert(CreatePostControllerFactory.create()),
+  );
 
   app.get('/posts/', ensureAuthenticated, (req, res) => {
     const userPosts = data.posts
