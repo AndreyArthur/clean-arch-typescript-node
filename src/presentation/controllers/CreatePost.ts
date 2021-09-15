@@ -1,12 +1,12 @@
-import { CreatePostUseCase } from '@/application/useCases';
+import { CreatePost } from '@/core/useCases';
 import {
   Controller, ControllerPlugins, HttpRequest, HttpResponse,
 } from '@/presentation/protocols';
 
 export class CreatePostController implements Controller {
-  private readonly createPost: CreatePostUseCase;
+  private readonly createPost: CreatePost;
 
-  constructor(createPost: CreatePostUseCase) {
+  constructor(createPost: CreatePost) {
     this.createPost = createPost;
   }
 
