@@ -1,4 +1,3 @@
-import { User } from '@/core/entities';
 import {
   LoginFailedError, MissingFieldsError,
 } from '@/application/exceptions';
@@ -8,16 +7,7 @@ import {
 import {
   EncrypterProvider,
 } from '@/application/providers';
-
-type CreateSessionDTO = {
-  username: string;
-  password: string;
-};
-
-type CreateSessionResult = {
-  user: User;
-  token: string;
-};
+import { CreateSession, CreateSessionDTO, CreateSessionResult } from '@/core/useCases';
 
 type CreateSessionDeps = {
   repositories: {
@@ -29,7 +19,7 @@ type CreateSessionDeps = {
   }
 };
 
-export class CreateSessionUseCase {
+export class CreateSessionUseCase implements CreateSession {
   private readonly usersRepository: UsersRepository;
 
   private readonly sessionsRepository: SessionsRepository;
