@@ -1,4 +1,4 @@
-import { User } from '@/core/entities';
+import { User, Session } from '@/core/entities';
 import { date, string, uuid } from '@/infra/helpers';
 
 const username = (): string => {
@@ -50,6 +50,18 @@ const sha256 = (): string => {
   return string.random(chars, 64);
 };
 
+const session = (givenSession?: Partial<Session>): Session => {
+  const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+
+  return {
+    id: givenSession?.id || uuid.v4(),
+    expirationTime: givenSession?.expirationTime
+      || date.utc().getTime() + ONE_DAY_IN_MILLISECONDS,
+    token: givenSession?.token || sha256(),
+    userId: givenSession?.userId || uuid.v4(),
+  };
+};
+
 export const generators = {
   username,
   password,
@@ -57,4 +69,5 @@ export const generators = {
   user,
   content,
   sha256,
+  session,
 };
