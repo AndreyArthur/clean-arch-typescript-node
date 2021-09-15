@@ -2,11 +2,7 @@ import { User } from '@/core/entities';
 import { MissingFieldsError, UserExistsError } from '@/application/exceptions';
 import { UsersRepository } from '@/application/repositories';
 import { EncrypterProvider } from '@/application/providers';
-
-type CreateUserDTO = {
-  username: string;
-  password: string;
-};
+import { CreateUser, CreateUserDTO } from '@/core/useCases';
 
 type CreateUserDeps = {
   repositories: {
@@ -17,7 +13,7 @@ type CreateUserDeps = {
   };
 };
 
-export class CreateUserUseCase {
+export class CreateUserUseCase implements CreateUser {
   private readonly usersRepository: UsersRepository;
 
   private readonly encrypter: EncrypterProvider;
