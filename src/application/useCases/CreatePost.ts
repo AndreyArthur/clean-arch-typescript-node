@@ -1,12 +1,7 @@
 import { Post } from '@/core/entities';
 import { MissingFieldsError } from '@/application/exceptions';
 import { PostsRepository } from '@/application/repositories';
-
-type CreatePostDTO = {
-  title: string;
-  content: string;
-  userId: string;
-};
+import { CreatePost, CreatePostDTO } from '@/core/useCases';
 
 type CreatePostDeps = {
   repositories: {
@@ -14,7 +9,7 @@ type CreatePostDeps = {
   }
 };
 
-export class CreatePostUseCase {
+export class CreatePostUseCase implements CreatePost {
   private readonly postsRepository: PostsRepository;
 
   constructor(deps: CreatePostDeps) {
