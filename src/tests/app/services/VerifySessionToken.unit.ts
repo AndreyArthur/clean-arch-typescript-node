@@ -2,7 +2,7 @@ import {
   ExpiredTokenError, InvalidTokenError, MissingTokenError, MissingUserError,
 } from '@/application/exceptions';
 import { SessionsRepository, UsersRepository } from '@/application/repositories';
-import { VerifySessionTokenUseCase } from '@/application/useCases';
+import { VerifySessionTokenService } from '@/application/services';
 import { uuid } from '@/infra/helpers';
 import { SessionsRepositoryMemory, UsersRepositoryMemory } from '@/infra/repositories';
 import { data } from '@/infra/sources';
@@ -11,13 +11,13 @@ import { generators, verifiers } from '@/tests/helpers';
 type SetupComponents = {
   sessionsRepository: SessionsRepository;
   usersRepository: UsersRepository;
-  verifySessionToken: VerifySessionTokenUseCase;
+  verifySessionToken: VerifySessionTokenService;
 };
 
 const setup = (): SetupComponents => {
   const sessionsRepository = new SessionsRepositoryMemory();
   const usersRepository = new UsersRepositoryMemory();
-  const verifySessionToken = new VerifySessionTokenUseCase({
+  const verifySessionToken = new VerifySessionTokenService({
     repositories: {
       sessions: sessionsRepository,
       users: usersRepository,
@@ -31,7 +31,7 @@ const setup = (): SetupComponents => {
   };
 };
 
-describe('VerifySessionToken UseCase', () => {
+describe('VerifySessionToken Service', () => {
   afterEach(() => {
     data.users = [];
     data.sessions = [];

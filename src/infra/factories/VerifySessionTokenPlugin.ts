@@ -1,4 +1,4 @@
-import { VerifySessionTokenUseCase } from '@/application/useCases';
+import { VerifySessionTokenService } from '@/application/services';
 import { VerifySessionTokenPlugin } from '@/presentation/plugins';
 import {
   SessionsRepositoryMemory, UsersRepositoryMemory,
@@ -10,14 +10,14 @@ export class VerifySessionTokenPluginFactory {
   public static create(): VerifySessionTokenPlugin {
     const usersRepository = new UsersRepositoryMemory();
     const sessionsRepository = new SessionsRepositoryMemory();
-    const verifySessionTokenUseCase = new VerifySessionTokenUseCase({
+    const verifySessionTokenService = new VerifySessionTokenService({
       repositories: {
         users: usersRepository,
         sessions: sessionsRepository,
       },
     });
     const verifySessionTokenPlugin = new VerifySessionTokenPlugin(
-      verifySessionTokenUseCase,
+      verifySessionTokenService,
     );
 
     return verifySessionTokenPlugin;

@@ -16,7 +16,7 @@ type VerifySessionTokenDeps = {
   }
 };
 
-export class VerifySessionTokenUseCase {
+export class VerifySessionTokenService {
   private readonly usersRepository: UsersRepository;
 
   private readonly sessionsRepository: SessionsRepository;

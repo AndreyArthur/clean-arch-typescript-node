@@ -1,11 +1,11 @@
-import { VerifySessionTokenUseCase } from '@/application/useCases';
+import { VerifySessionTokenService } from '@/application/services';
 import { User } from '@/core/entities';
 import { HttpRequest, Plugin } from '@/presentation/protocols';
 
 export class VerifySessionTokenPlugin implements Plugin<User> {
-  private readonly verifySessionToken: VerifySessionTokenUseCase;
+  private readonly verifySessionToken: VerifySessionTokenService;
 
-  constructor(verifySessionToken: VerifySessionTokenUseCase) {
+  constructor(verifySessionToken: VerifySessionTokenService) {
     this.verifySessionToken = verifySessionToken;
   }
 
