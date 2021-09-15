@@ -29,4 +29,14 @@ export class UsersRepositoryMemory implements UsersRepository {
 
     return foundUser;
   }
+
+  public async findById(id: string): Promise<User | null> {
+    const foundUser = await Promise.resolve(
+      data.users.find((user) => id === user.id),
+    );
+
+    if (!foundUser) return null;
+
+    return foundUser;
+  }
 }

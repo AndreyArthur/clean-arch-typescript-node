@@ -24,4 +24,26 @@ export class SessionsRepositoryMemory implements SessionsRepository {
       data.posts.filter((session) => session.userId !== userId),
     );
   }
+
+  public async findByToken(token: string): Promise<Session | null> {
+    const foundSession = await Promise.resolve(
+      data.sessions.find((session) => session.token === token),
+    );
+
+    if (!foundSession) return null;
+
+    return foundSession;
+  }
+
+  public async verifyExpirationById(id: string): Promise<boolean> {
+    const foundSession = await Promise.resolve(
+      data.sessions.find((session) => session.id === id),
+    );
+
+    if (!foundSession) throw new Error('User not found.');
+
+    const isExpired = date.utc().getTime() > foundSession.expirationTime;
+
+    return isExpired;
+  }
 }
