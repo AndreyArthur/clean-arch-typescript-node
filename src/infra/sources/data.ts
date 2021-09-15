@@ -1,13 +1,4 @@
-import { User, Session } from '@/core/entities';
-
-type Post = {
-  id: string;
-  title: string;
-  content: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+import { User, Session, Post } from '@/core/entities';
 
 type Data = {
   users: User[];
