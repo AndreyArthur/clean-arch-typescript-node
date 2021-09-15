@@ -71,6 +71,8 @@ describe('CreateSession UseCase', () => {
         username: generators.username(),
         password: generators.password(),
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof LoginFailedError).toBe(true);
     }
@@ -84,6 +86,8 @@ describe('CreateSession UseCase', () => {
         username: '',
         password: '',
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -93,6 +97,8 @@ describe('CreateSession UseCase', () => {
         username: generators.username(),
         password: '',
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -102,6 +108,8 @@ describe('CreateSession UseCase', () => {
         username: '',
         password: generators.password(),
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -122,6 +130,8 @@ describe('CreateSession UseCase', () => {
         username,
         password: generators.password(),
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof LoginFailedError).toBe(true);
     }

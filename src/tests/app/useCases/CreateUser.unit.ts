@@ -54,6 +54,8 @@ describe('CreateUser UseCase', () => {
         username: '',
         password: '',
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -63,6 +65,8 @@ describe('CreateUser UseCase', () => {
         username: generators.username(),
         password: '',
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -72,6 +76,8 @@ describe('CreateUser UseCase', () => {
         username: '',
         password: generators.password(),
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof MissingFieldsError).toBe(true);
     }
@@ -90,6 +96,8 @@ describe('CreateUser UseCase', () => {
         username,
         password: generators.password(),
       });
+
+      throw null;
     } catch (err) {
       expect(err instanceof UserExistsError).toBe(true);
     }
