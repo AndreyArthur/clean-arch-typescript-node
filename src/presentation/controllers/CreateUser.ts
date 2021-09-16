@@ -1,5 +1,6 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
 import { CreateUser } from '@/core/useCases';
+import { UserView } from '@/presentation/views';
 
 export class CreateUserController implements Controller {
   private readonly createUser: CreateUser;
@@ -8,7 +9,7 @@ export class CreateUserController implements Controller {
     this.createUser = createUser;
   }
 
-  public async handle(request: HttpRequest): Promise<HttpResponse> {
+  public async handle(request: HttpRequest): Promise<HttpResponse<UserView>> {
     const { username, password } = request.body;
 
     const { password: _p, ...user } = await this.createUser.execute({
@@ -19,7 +20,8 @@ export class CreateUserController implements Controller {
     return {
       status: 201,
       body: {
-        ...user,
+        id: user.id,
+        username: user.username,
         createdAt: user.createdAt.toISOString(),
         updatedAt: user.updatedAt.toISOString(),
       },
