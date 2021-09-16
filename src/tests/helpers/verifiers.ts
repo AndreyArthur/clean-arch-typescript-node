@@ -25,11 +25,12 @@ const isUser = (
   return true;
 };
 
-const isPost = (post: Record<string, any>): boolean => {
+const isPost = (post: Record<string, any>, userId = true): boolean => {
   if (!regexp.uuid.test(post.id)) return false;
   if (!post.title) return false;
   if (!post.content) return false;
-  if (!regexp.uuid.test(post.userId)) return false;
+  if (userId && !regexp.uuid.test(post.userId)) return false;
+  if (!userId && post.userId) return false;
   if (!isDate(post.createdAt) || !isDate(post.updatedAt)) return false;
 
   return true;

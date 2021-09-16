@@ -49,7 +49,7 @@ describe('/posts/ HTTP', () => {
     };
 
     expect(status).toBe(201);
-    expect(verifiers.isPost(post)).toBe(true);
+    expect(verifiers.isPost(post, false)).toBe(true);
   });
 
   it('should fail to create a post because fields are missing', async () => {
@@ -116,7 +116,7 @@ describe('/posts/ HTTP', () => {
 
     expect(status).toBe(200);
     expect(body.length).toBe(10);
-    expect(verifiers.isPost(post)).toBe(true);
+    expect(verifiers.isPost(post, false)).toBe(true);
   });
 
   it('should update a post successfully', async () => {
@@ -148,7 +148,7 @@ describe('/posts/ HTTP', () => {
     };
 
     expect(status).toBe(200);
-    expect(verifiers.isPost(post)).toBe(true);
+    expect(verifiers.isPost(post, false)).toBe(true);
     expect(post.title).toBe(title);
     expect(post.content).toBe(content);
     expect(post.createdAt.getTime() < post.updatedAt.getTime()).toBe(true);
