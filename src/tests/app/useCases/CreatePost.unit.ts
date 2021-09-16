@@ -4,6 +4,7 @@ import { PostsRepositoryMemory } from '@/infra/repositories';
 import { uuid } from '@/infra/helpers';
 import { generators, verifiers } from '@/tests/helpers';
 import { MissingFieldsError } from '@/application/exceptions';
+import { data } from '@/infra/sources';
 
 type SetupComponents = {
   postsRepository: PostsRepository;
@@ -25,6 +26,8 @@ const setup = (): SetupComponents => {
 };
 
 describe('CreatePost UseCase', () => {
+  afterEach(() => { data.posts = []; });
+
   it('should create a Post successfully', async () => {
     const { createPost } = setup();
     const post = await createPost.execute({

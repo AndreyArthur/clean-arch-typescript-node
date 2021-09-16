@@ -3,6 +3,7 @@ import { PostsRepository } from '@/application/repositories';
 import { DeletePostUseCase } from '@/application/useCases';
 import { uuid } from '@/infra/helpers';
 import { PostsRepositoryMemory } from '@/infra/repositories';
+import { data } from '@/infra/sources';
 import { generators } from '@/tests/helpers';
 
 type SetupComponents = {
@@ -25,6 +26,8 @@ const setup = (): SetupComponents => {
 };
 
 describe('DeletePost UseCase', () => {
+  afterEach(() => { data.posts = []; });
+
   it('should delete a post returning nothing', async () => {
     const { deletePost, postsRepository } = setup();
     const postId = uuid.v4();

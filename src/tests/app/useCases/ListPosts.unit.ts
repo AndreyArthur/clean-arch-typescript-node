@@ -3,6 +3,7 @@ import { ListPostsUseCase } from '@/application/useCases';
 import { Post } from '@/core/entities';
 import { uuid } from '@/infra/helpers';
 import { PostsRepositoryMemory } from '@/infra/repositories';
+import { data } from '@/infra/sources';
 import { generators, verifiers } from '@/tests/helpers';
 
 type SetupComponents = {
@@ -25,6 +26,8 @@ const setup = (): SetupComponents => {
 };
 
 describe('ListPosts UseCase', () => {
+  afterEach(() => { data.posts = []; });
+
   it('should return all posts from an User', async () => {
     const { postsRepository, listPosts } = setup();
     const userId = uuid.v4();

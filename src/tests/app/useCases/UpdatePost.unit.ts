@@ -3,6 +3,7 @@ import { PostsRepository, PostsRepositoryUpdateByIdDTO } from '@/application/rep
 import { UpdatePostUseCase } from '@/application/useCases';
 import { date, uuid } from '@/infra/helpers';
 import { PostsRepositoryMemory } from '@/infra/repositories';
+import { data } from '@/infra/sources';
 import { generators, verifiers } from '@/tests/helpers';
 
 type SetupComponents = {
@@ -25,6 +26,8 @@ const setup = (): SetupComponents => {
 };
 
 describe('UpdatePost UseCase', () => {
+  afterEach(() => { data.posts = []; });
+
   it('should update a Post successfully', async () => {
     const { updatePost, postsRepository } = setup();
     const postId = uuid.v4();
