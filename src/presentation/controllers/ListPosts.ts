@@ -2,6 +2,7 @@ import { ListPosts } from '@/core/useCases';
 import {
   Controller, ControllerPlugins, HttpRequest, HttpResponse,
 } from '@/presentation/protocols';
+import { PostView } from '@/presentation/views';
 
 export class ListPostsController implements Controller {
   private readonly listPosts: ListPosts;
@@ -12,12 +13,14 @@ export class ListPostsController implements Controller {
 
   public async handle(
     request: HttpRequest, plugins?: ControllerPlugins,
-  ): Promise<HttpResponse> {
+  ): Promise<HttpResponse<PostView[]>> {
     if (!plugins) throw new Error('Plugin \'auth\' is required.');
 
     const user = await plugins.auth(request);
     const posts = (await this.listPosts.execute(user.id)).map((post) => ({
-      ...post,
+      id: post.id,
+      title: post.title,
+      content: post.content,
       createdAt: post.createdAt.toISOString(),
       updatedAt: post.updatedAt.toISOString(),
     }));

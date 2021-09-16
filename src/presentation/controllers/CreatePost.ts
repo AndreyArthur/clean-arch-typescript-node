@@ -2,6 +2,7 @@ import { CreatePost } from '@/core/useCases';
 import {
   Controller, ControllerPlugins, HttpRequest, HttpResponse,
 } from '@/presentation/protocols';
+import { PostView } from '@/presentation/views';
 
 export class CreatePostController implements Controller {
   private readonly createPost: CreatePost;
@@ -12,7 +13,7 @@ export class CreatePostController implements Controller {
 
   public async handle(
     request: HttpRequest, plugins?: ControllerPlugins,
-  ): Promise<HttpResponse> {
+  ): Promise<HttpResponse<PostView>> {
     if (!plugins) throw new Error('Plugin \'auth\' required.');
 
     const { content, title } = request.body;
@@ -26,7 +27,9 @@ export class CreatePostController implements Controller {
     return {
       status: 201,
       body: {
-        ...post,
+        id: post.id,
+        content: post.content,
+        title: post.title,
         createdAt: post.createdAt.toISOString(),
         updatedAt: post.updatedAt.toISOString(),
       },
