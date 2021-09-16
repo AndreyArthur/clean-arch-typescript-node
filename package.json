@@ -7,6 +7,8 @@
     "test@base": "jest --preset ts-jest --moduleNameMapper '{\"@/(.*)\": \"<rootDir>/src/$1\"}' --runInBand",
     "test@http": "npm run test@base -- --testRegex './src/tests/(app|http)/(.+/)?.+.(http).ts'",
     "test@unit": "npm run test@base -- --testRegex './src/tests/(app)/(.+/)?.+.(unit).ts'",
+    "test@integration": "npm run test@base -- --testRegex './src/tests/(app)/(.+/)?.+.(integration).ts'",
+    "test@all": "npm run test@base -- --testRegex './src/tests/(app|http)/(.+/)?.+.(http|unit|integration).ts'",
     "exec": "ts-node -r tsconfig-paths/register",
     "dev": "npm run exec -- ./src/main.ts",
     "build": "tsc && tscpaths -p ./tsconfig.json -s ./src -o ./dist",
