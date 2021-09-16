@@ -1,9 +1,9 @@
-import { User, Session, Post } from '@/core/entities';
+import { SessionModel, UserModel, PostModel } from '@/application/models';
 
 type Data = {
-  users: User[];
-  sessions: Session[];
-  posts: Post[];
+  users: UserModel[];
+  sessions: SessionModel[];
+  posts: PostModel[];
 };
 
 export const data: Data = {

@@ -4,7 +4,7 @@ import {
   SessionsRepositoryMemory, UsersRepositoryMemory,
 } from '@/infra/repositories';
 import { HttpRequest, PluginInterceptor } from '@/presentation/protocols';
-import { User } from '@/core/entities';
+import { UserModel } from '@/application/models';
 
 export class VerifySessionTokenPluginFactory {
   public static create(): VerifySessionTokenPlugin {
@@ -24,6 +24,6 @@ export class VerifySessionTokenPluginFactory {
   }
 }
 
-export const authPlugin: PluginInterceptor<User> = (request: HttpRequest) => (
-  VerifySessionTokenPluginFactory.create().intercept(request)
-);
+export const authPlugin: PluginInterceptor<UserModel> = (
+  request: HttpRequest,
+) => VerifySessionTokenPluginFactory.create().intercept(request);

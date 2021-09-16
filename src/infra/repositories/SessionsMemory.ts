@@ -1,4 +1,4 @@
-import { Session } from '@/core/entities';
+import { SessionModel } from '@/application/models';
 import {
   SessionsRepository, SessionsRepositoryCreateDTO,
 } from '@/application/repositories';
@@ -6,7 +6,9 @@ import { date, string, uuid } from '@/infra/helpers';
 import { data } from '@/infra/sources';
 
 export class SessionsRepositoryMemory implements SessionsRepository {
-  public create({ userId, expiresIn }: SessionsRepositoryCreateDTO): Session {
+  public create(
+    { userId, expiresIn }: SessionsRepositoryCreateDTO,
+  ): SessionModel {
     return {
       id: uuid.v4(),
       userId,
@@ -15,7 +17,7 @@ export class SessionsRepositoryMemory implements SessionsRepository {
     };
   }
 
-  public async save(session: Session): Promise<void> {
+  public async save(session: SessionModel): Promise<void> {
     await Promise.resolve(data.sessions.push(session));
   }
 
@@ -25,7 +27,7 @@ export class SessionsRepositoryMemory implements SessionsRepository {
     );
   }
 
-  public async findByToken(token: string): Promise<Session | null> {
+  public async findByToken(token: string): Promise<SessionModel | null> {
     const foundSession = await Promise.resolve(
       data.sessions.find((session) => session.token === token),
     );
