@@ -1,9 +1,9 @@
-import { Session, Post } from '@/core/entities';
-import { UserModel } from '@/application/models';
+import { Post } from '@/core/entities';
+import { SessionModel, UserModel } from '@/application/models';
 
 type Data = {
   users: UserModel[];
-  sessions: Session[];
+  sessions: SessionModel[];
   posts: Post[];
 };
 
