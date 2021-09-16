@@ -1,4 +1,4 @@
-import { User } from '@/core/entities';
+import { UserModel } from '@/application/models';
 import { date, uuid } from '@/infra/helpers';
 import {
   UsersRepository, UsersRepositoryCreateDTO,
@@ -6,7 +6,7 @@ import {
 import { data } from '@/infra/sources';
 
 export class UsersRepositoryMemory implements UsersRepository {
-  public create({ username, password }: UsersRepositoryCreateDTO): User {
+  public create({ username, password }: UsersRepositoryCreateDTO): UserModel {
     return {
       id: uuid.v4(),
       username,
@@ -16,11 +16,11 @@ export class UsersRepositoryMemory implements UsersRepository {
     };
   }
 
-  public async save(user: User): Promise<void> {
+  public async save(user: UserModel): Promise<void> {
     await Promise.resolve(data.users.push(user));
   }
 
-  public async findByUsername(username: string): Promise<User | null> {
+  public async findByUsername(username: string): Promise<UserModel | null> {
     const foundUser = await Promise.resolve(
       data.users.find((user) => username === user.username),
     );
@@ -30,7 +30,7 @@ export class UsersRepositoryMemory implements UsersRepository {
     return foundUser;
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public async findById(id: string): Promise<UserModel | null> {
     const foundUser = await Promise.resolve(
       data.users.find((user) => id === user.id),
     );

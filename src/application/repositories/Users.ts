@@ -1,4 +1,4 @@
-import { User } from '@/core/entities';
+import { UserModel } from '@/application/models';
 
 export type UsersRepositoryCreateDTO = {
   username: string;
@@ -6,8 +6,8 @@ export type UsersRepositoryCreateDTO = {
 };
 
 export interface UsersRepository {
-  create: ({ username, password }: UsersRepositoryCreateDTO) => User;
-  save: (user: User) => Promise<void>;
-  findByUsername: (username: string) => Promise<User | null>;
-  findById: (id: string) => Promise<User | null>;
+  create: ({ username, password }: UsersRepositoryCreateDTO) => UserModel;
+  save: (user: UserModel) => Promise<void>;
+  findByUsername: (username: string) => Promise<UserModel | null>;
+  findById: (id: string) => Promise<UserModel | null>;
 }
