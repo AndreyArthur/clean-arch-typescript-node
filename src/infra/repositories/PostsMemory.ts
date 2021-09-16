@@ -1,6 +1,8 @@
 import {
   PostsRepository,
   PostsRepositoryCreateDTO,
+  PostsRepositoryFindByUserIdAndIdDTO,
+  PostsRepositoryUpdateByIdDTO,
 } from '@/application/repositories';
 import { Post } from '@/core/entities';
 import { date, uuid } from '@/infra/helpers';
@@ -28,5 +30,56 @@ export class PostsRepositoryMemory implements PostsRepository {
     );
 
     return posts;
+  }
+
+  public async findByUserIdAndId(
+    { id, userId }: PostsRepositoryFindByUserIdAndIdDTO,
+  ): Promise<Post | null> {
+    const foundPost = await Promise.resolve(
+      data.posts
+        .find((post) => (
+          (post.userId === userId) && (id === post.id)
+        )),
+    );
+
+    if (!foundPost) return null;
+
+    return foundPost;
+  }
+
+  public async updateById(
+    id: string, { content, title }: PostsRepositoryUpdateByIdDTO,
+  ):Promise<void> {
+    const foundPost = await Promise.resolve(
+      data.posts.find((post) => post.id === id),
+    );
+
+    if (!foundPost) throw new Error('Post not found.');
+
+    const updatedPost = {
+      id: foundPost.id,
+      content: content || foundPost.content,
+      title: title || foundPost.title,
+      userId: foundPost.userId,
+      createdAt: foundPost.createdAt,
+      updatedAt: date.utc(),
+    };
+
+    await Promise.resolve(
+      data.posts = data.posts
+        .filter((post) => post.id !== foundPost.id),
+    );
+
+    await Promise.resolve(data.posts.push(updatedPost));
+  }
+
+  public async findById(id: string): Promise<Post | null> {
+    const foundPost = await Promise.resolve(
+      data.posts.find((post) => post.id === id),
+    );
+
+    if (!foundPost) return null;
+
+    return foundPost;
   }
 }
