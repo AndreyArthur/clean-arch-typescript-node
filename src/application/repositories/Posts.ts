@@ -1,4 +1,4 @@
-import { Post } from '@/core/entities';
+import { PostModel } from '@/application/models';
 
 export type PostsRepositoryCreateDTO = {
   userId: string;
@@ -17,15 +17,15 @@ export type PostsRepositoryUpdateByIdDTO = {
 };
 
 export interface PostsRepository {
-  create: ({ userId, content, title }: PostsRepositoryCreateDTO) => Post;
-  save: (post: Post) => Promise<void>;
-  findManyByUserId: (userId: string) => Promise<Post[]>;
+  create: ({ userId, content, title }: PostsRepositoryCreateDTO) => PostModel;
+  save: (post: PostModel) => Promise<void>;
+  findManyByUserId: (userId: string) => Promise<PostModel[]>;
   findByUserIdAndId: (
     { userId, id }: PostsRepositoryFindByUserIdAndIdDTO
-  ) => Promise<Post | null>;
+  ) => Promise<PostModel | null>;
   updateById: (
     id: string, post: PostsRepositoryUpdateByIdDTO
   ) => Promise<void>;
-  findById: (id: string) => Promise<Post | null>;
+  findById: (id: string) => Promise<PostModel | null>;
   deleteById: (id: string) => Promise<void>;
 }

@@ -4,12 +4,14 @@ import {
   PostsRepositoryFindByUserIdAndIdDTO,
   PostsRepositoryUpdateByIdDTO,
 } from '@/application/repositories';
-import { Post } from '@/core/entities';
+import { PostModel } from '@/application/models';
 import { date, uuid } from '@/infra/helpers';
 import { data } from '@/infra/sources';
 
 export class PostsRepositoryMemory implements PostsRepository {
-  public create({ userId, title, content }: PostsRepositoryCreateDTO): Post {
+  public create(
+    { userId, title, content }: PostsRepositoryCreateDTO,
+  ): PostModel {
     return {
       id: uuid.v4(),
       content,
@@ -20,11 +22,11 @@ export class PostsRepositoryMemory implements PostsRepository {
     };
   }
 
-  public async save(post: Post): Promise<void> {
+  public async save(post: PostModel): Promise<void> {
     await Promise.resolve(data.posts.push(post));
   }
 
-  public async findManyByUserId(userId: string): Promise<Post[]> {
+  public async findManyByUserId(userId: string): Promise<PostModel[]> {
     const posts = await Promise.resolve(
       data.posts.filter((post) => post.userId === userId),
     );
@@ -34,7 +36,7 @@ export class PostsRepositoryMemory implements PostsRepository {
 
   public async findByUserIdAndId(
     { id, userId }: PostsRepositoryFindByUserIdAndIdDTO,
-  ): Promise<Post | null> {
+  ): Promise<PostModel | null> {
     const foundPost = await Promise.resolve(
       data.posts
         .find((post) => (
@@ -73,7 +75,7 @@ export class PostsRepositoryMemory implements PostsRepository {
     await Promise.resolve(data.posts.push(updatedPost));
   }
 
-  public async findById(id: string): Promise<Post | null> {
+  public async findById(id: string): Promise<PostModel | null> {
     const foundPost = await Promise.resolve(
       data.posts.find((post) => post.id === id),
     );

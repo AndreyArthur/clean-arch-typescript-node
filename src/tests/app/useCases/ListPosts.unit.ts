@@ -1,6 +1,6 @@
 import { PostsRepository } from '@/application/repositories';
 import { ListPostsUseCase } from '@/application/useCases';
-import { Post } from '@/core/entities';
+import { PostModel } from '@/application/models';
 import { uuid } from '@/infra/helpers';
 import { PostsRepositoryMemory } from '@/infra/repositories';
 import { data } from '@/infra/sources';
@@ -33,7 +33,7 @@ describe('ListPosts UseCase', () => {
     const userId = uuid.v4();
 
     jest.spyOn(postsRepository, 'findManyByUserId').mockReturnValueOnce(
-      Promise.resolve(((): Post[] => {
+      Promise.resolve(((): PostModel[] => {
         const posts = [];
 
         for (let i = 0; i < 10; i += 1) {
