@@ -27,4 +27,5 @@ export interface PostsRepository {
     id: string, post: PostsRepositoryUpdateByIdDTO
   ) => Promise<void>;
   findById: (id: string) => Promise<Post | null>;
+  deleteById: (id: string) => Promise<void>;
 }

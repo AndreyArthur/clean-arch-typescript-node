@@ -82,4 +82,10 @@ export class PostsRepositoryMemory implements PostsRepository {
 
     return foundPost;
   }
+
+  public async deleteById(id: string): Promise<void> {
+    data.posts = await Promise.resolve(
+      data.posts.filter((post) => post.id !== id),
+    );
+  }
 }
