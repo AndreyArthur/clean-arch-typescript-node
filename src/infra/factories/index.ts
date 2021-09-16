@@ -3,4 +3,5 @@ export * from '@/infra/factories/CreateSessionController';
 export * from '@/infra/factories/CreatePostController';
 export * from '@/infra/factories/ListPostsController';
 export * from '@/infra/factories/UpdatePostController';
+export * from '@/infra/factories/DeletePostController';
 export * from '@/infra/factories/VerifySessionTokenPlugin';
