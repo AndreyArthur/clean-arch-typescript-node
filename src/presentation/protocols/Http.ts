@@ -6,5 +6,5 @@ export type HttpRequest = {
 
 export type HttpResponse<T = any> = {
   status: number;
-  body: T;
+  body?: T;
 };
