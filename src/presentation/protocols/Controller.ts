@@ -1,10 +1,10 @@
-import { User } from '@/core/entities';
+import { UserModel } from '@/application/models';
 import {
   PluginInterceptor, HttpResponse, HttpRequest,
 } from '@/presentation/protocols';
 
 export type ControllerPlugins = {
-  auth: PluginInterceptor<User>;
+  auth: PluginInterceptor<UserModel>;
 };
 
 export interface Controller {
