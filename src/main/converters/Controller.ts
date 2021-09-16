@@ -11,6 +11,7 @@ export class ControllerConverter {
         const response = await controller.handle({
           body: req.body,
           headers: req.headers,
+          params: req.params,
         },
         {
           auth: authPlugin,
@@ -19,7 +20,7 @@ export class ControllerConverter {
         return res.status(response.status).send(response.body);
       } catch (err) {
         const response = await new ExceptionHandlerController()
-          .handle({ body: err, headers: req.headers });
+          .handle({ body: err, headers: req.headers, params: req.params });
 
         return res.status(response.status).send(response.body);
       }
