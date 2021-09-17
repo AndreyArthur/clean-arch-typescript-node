@@ -2,7 +2,7 @@ import {
   ExpiredTokenError, InvalidTokenError, MissingTokenError, MissingUserError,
 } from '@/application/exceptions';
 import { SessionsRepository, UsersRepository } from '@/application/repositories';
-import { VerifySessionTokenService } from '@/application/services';
+import { VerifyAuthorizationService } from '@/application/services';
 import { uuid } from '@/infra/helpers';
 import { SessionsRepositoryMemory, UsersRepositoryMemory } from '@/infra/repositories';
 import { data } from '@/infra/sources';
@@ -11,13 +11,13 @@ import { generators, verifiers } from '@/tests/helpers';
 type SetupComponents = {
   sessionsRepository: SessionsRepository;
   usersRepository: UsersRepository;
-  verifySessionToken: VerifySessionTokenService;
+  verifyAuthorization: VerifyAuthorizationService;
 };
 
 const setup = (): SetupComponents => {
   const sessionsRepository = new SessionsRepositoryMemory();
   const usersRepository = new UsersRepositoryMemory();
-  const verifySessionToken = new VerifySessionTokenService({
+  const verifyAuthorization = new VerifyAuthorizationService({
     repositories: {
       sessions: sessionsRepository,
       users: usersRepository,
@@ -27,18 +27,18 @@ const setup = (): SetupComponents => {
   return {
     sessionsRepository,
     usersRepository,
-    verifySessionToken,
+    verifyAuthorization,
   };
 };
 
-describe('VerifySessionToken Service', () => {
+describe('VerifyAuthorization Service', () => {
   afterEach(() => {
     data.users = [];
     data.sessions = [];
   });
 
   it('should get success returning an User object', async () => {
-    const { verifySessionToken, sessionsRepository, usersRepository } = setup();
+    const { verifyAuthorization, sessionsRepository, usersRepository } = setup();
     const token = generators.sha256();
     const createdUser = generators.user();
 
@@ -55,16 +55,16 @@ describe('VerifySessionToken Service', () => {
       Promise.resolve(createdUser),
     );
 
-    const user = await verifySessionToken.execute(token);
+    const user = await verifyAuthorization.execute(token);
 
     expect(verifiers.isUser(user)).toBe(true);
   });
 
   it('should fail because token is missing', async () => {
-    const { verifySessionToken } = setup();
+    const { verifyAuthorization } = setup();
 
     try {
-      await verifySessionToken.execute('');
+      await verifyAuthorization.execute('');
 
       throw null;
     } catch (err) {
@@ -73,10 +73,10 @@ describe('VerifySessionToken Service', () => {
   });
 
   it('should fail because token has no Session in data', async () => {
-    const { verifySessionToken } = setup();
+    const { verifyAuthorization } = setup();
 
     try {
-      await verifySessionToken.execute(generators.sha256());
+      await verifyAuthorization.execute(generators.sha256());
 
       throw null;
     } catch (err) {
@@ -85,7 +85,7 @@ describe('VerifySessionToken Service', () => {
   });
 
   it('should fail because token Session is expired', async () => {
-    const { verifySessionToken, sessionsRepository } = setup();
+    const { verifyAuthorization, sessionsRepository } = setup();
     const token = generators.sha256();
     const createdUser = generators.user();
 
@@ -100,7 +100,7 @@ describe('VerifySessionToken Service', () => {
     );
 
     try {
-      await verifySessionToken.execute(token);
+      await verifyAuthorization.execute(token);
 
       throw null;
     } catch (err) {
@@ -109,7 +109,7 @@ describe('VerifySessionToken Service', () => {
   });
 
   it('should fail because Session has no User in data', async () => {
-    const { verifySessionToken, sessionsRepository, usersRepository } = setup();
+    const { verifyAuthorization, sessionsRepository, usersRepository } = setup();
     const token = generators.sha256();
 
     jest.spyOn(sessionsRepository, 'findByToken').mockReturnValueOnce(
@@ -126,7 +126,7 @@ describe('VerifySessionToken Service', () => {
     );
 
     try {
-      await verifySessionToken.execute(token);
+      await verifyAuthorization.execute(token);
 
       throw null;
     } catch (err) {

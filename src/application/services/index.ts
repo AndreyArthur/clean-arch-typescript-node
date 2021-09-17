@@ -1,1 +1,1 @@
-export * from '@/application/services/VerifySessionToken';
+export * from '@/application/services/VerifyAuthorization';

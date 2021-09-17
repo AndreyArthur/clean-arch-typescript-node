@@ -9,19 +9,19 @@ import {
   MissingUserError,
 } from '@/application/exceptions';
 
-type VerifySessionTokenDeps = {
+type VerifyAuthorizationDeps = {
   repositories: {
     users: UsersRepository;
     sessions: SessionsRepository;
   }
 };
 
-export class VerifySessionTokenService {
+export class VerifyAuthorizationService {
   private readonly usersRepository: UsersRepository;
 
   private readonly sessionsRepository: SessionsRepository;
 
-  constructor(deps: VerifySessionTokenDeps) {
+  constructor(deps: VerifyAuthorizationDeps) {
     this.sessionsRepository = deps.repositories.sessions;
     this.usersRepository = deps.repositories.users;
   }

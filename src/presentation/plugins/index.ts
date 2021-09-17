@@ -1,1 +1,1 @@
-export * from '@/presentation/plugins/VerifySessionToken';
+export * from '@/presentation/plugins/VerifyAuthorization';
