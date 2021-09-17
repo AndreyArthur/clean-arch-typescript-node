@@ -1,6 +1,6 @@
 import { Express } from 'express';
 
-import { ControllerConverter } from '@/main/converters';
+import { ExpressHandlerControllerConverter } from '@/main/converters';
 import {
   CreatePostControllerFactory,
   DeletePostControllerFactory,
@@ -11,21 +11,29 @@ import {
 export const postsRouter = (app: Express): void => {
   app.post(
     '/posts/',
-    ControllerConverter.convert(CreatePostControllerFactory.create()),
+    ExpressHandlerControllerConverter.convert(
+      CreatePostControllerFactory.create(),
+    ),
   );
 
   app.get(
     '/posts/',
-    ControllerConverter.convert(ListPostsControllerFactory.create()),
+    ExpressHandlerControllerConverter.convert(
+      ListPostsControllerFactory.create(),
+    ),
   );
 
   app.put(
     '/posts/:id',
-    ControllerConverter.convert(UpdatePostControllerFactory.create()),
+    ExpressHandlerControllerConverter.convert(
+      UpdatePostControllerFactory.create(),
+    ),
   );
 
   app.delete(
     '/posts/:id',
-    ControllerConverter.convert(DeletePostControllerFactory.create()),
+    ExpressHandlerControllerConverter.convert(
+      DeletePostControllerFactory.create(),
+    ),
   );
 };

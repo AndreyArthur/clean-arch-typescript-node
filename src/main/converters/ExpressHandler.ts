@@ -4,7 +4,7 @@ import { Controller } from '@/presentation/protocols';
 import { ExceptionHandlerController } from '@/presentation/controllers';
 import { authPlugin } from '@/infra/factories';
 
-export class ControllerConverter {
+export class ExpressHandlerControllerConverter {
   public static convert(controller: Controller): RequestHandler {
     return async (req: Request, res: Response): Promise<Response> => {
       try {
