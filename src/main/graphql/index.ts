@@ -12,7 +12,13 @@ export const graphql = async (app: Express): Promise<void> => {
       req,
       res,
     }),
-    formatError: (err): any => JSON.parse(err.message),
+    formatError: (err): any => {
+      try {
+        return JSON.parse(err.message);
+      } catch {
+        return err;
+      }
+    },
   });
 
   await server.start();

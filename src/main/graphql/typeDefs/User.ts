@@ -8,7 +8,7 @@ export const UserTypeDefs = gql`
     updatedAt: String!
   }
 
-  type Mutation {
+  extend type Mutation {
     createUser(username: String!, password: String!): User!
   }
 `;
