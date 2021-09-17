@@ -10,7 +10,8 @@
       80,
       {
         "ignorePattern": "\/.*\/.$",
-        "ignoreStrings": true
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
       }
     ],
     "@typescript-eslint/no-throw-literal": "off",
