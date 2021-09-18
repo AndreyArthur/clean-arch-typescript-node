@@ -1,5 +1,6 @@
 import {
   CreatePostControllerFactory,
+  DeletePostControllerFactory,
   ListPostsControllerFactory,
   UpdatePostControllerFactory,
 } from '@/infra/factories';
@@ -11,6 +12,9 @@ const createPost = GraphQLResolverControllerConverter.convert(
 const updatePost = GraphQLResolverControllerConverter.convert(
   UpdatePostControllerFactory.create(),
 );
+const deletePost = GraphQLResolverControllerConverter.convert(
+  DeletePostControllerFactory.create(),
+);
 const posts = GraphQLResolverControllerConverter.convert(
   ListPostsControllerFactory.create(),
 );
@@ -19,6 +23,7 @@ export const PostResolvers = {
   Mutation: {
     createPost,
     updatePost,
+    deletePost,
   },
   Query: {
     posts,
