@@ -18,5 +18,6 @@ export default {
   },
   Query: {
     ...BaseResolvers.Query,
+    ...PostResolvers.Query,
   },
 };

@@ -9,6 +9,10 @@ export const PostTypeDefs = gql`
     updatedAt: String!
   }
 
+  extend type Query {
+    posts: [Post!]!
+  }
+
   extend type Mutation {
     createPost(title: String!, content: String!): Post!
   }
