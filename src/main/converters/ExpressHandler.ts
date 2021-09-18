@@ -9,9 +9,8 @@ export class ExpressHandlerControllerConverter {
     return async (req: Request, res: Response): Promise<Response> => {
       try {
         const response = await controller.handle({
-          body: req.body,
+          body: { ...req.body, ...req.params },
           headers: req.headers,
-          params: req.params,
         },
         {
           auth: authPlugin,
@@ -20,7 +19,10 @@ export class ExpressHandlerControllerConverter {
         return res.status(response.status).send(response.body);
       } catch (err) {
         const response = await new ExceptionHandlerController()
-          .handle({ body: err, headers: req.headers, params: req.params });
+          .handle({
+            body: err,
+            headers: req.headers,
+          });
 
         return res.status(response.status).send(response.body);
       }

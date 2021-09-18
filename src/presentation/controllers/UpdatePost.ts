@@ -19,7 +19,7 @@ export class UpdatePostController implements Controller {
     const { content, title } = request.body;
     const user = await plugins.auth(request);
     const post = await this.updatePost.execute({
-      id: request.params.id,
+      id: request.body.id,
       userId: user.id,
       content,
       title,

@@ -18,7 +18,7 @@ export class DeletePostController implements Controller {
     const user = await plugins.auth(request);
     await this.deletePost.execute({
       userId: user.id,
-      id: request.params.id,
+      id: request.body.id,
     });
 
     return {

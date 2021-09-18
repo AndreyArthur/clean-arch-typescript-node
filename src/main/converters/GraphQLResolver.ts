@@ -9,7 +9,6 @@ export class GraphQLResolverControllerConverter {
         const response = await controller.handle({
           body: args,
           headers: context.req.headers,
-          params: args,
         },
         {
           auth: authPlugin,
@@ -18,7 +17,7 @@ export class GraphQLResolverControllerConverter {
         return response.body;
       } catch (err) {
         const response = await new ExceptionHandlerController()
-          .handle({ body: err, headers: context.req.headers, params: args });
+          .handle({ body: err, headers: context.req.headers });
 
         throw new Error(JSON.stringify(response.body));
       }
