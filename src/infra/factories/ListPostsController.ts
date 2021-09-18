@@ -1,6 +1,6 @@
 import { ListPostsUseCase } from '@/application/useCases';
 import { ListPostsController } from '@/presentation/controllers';
-import { PostsRepositoryMemory } from '../repositories';
+import { PostsRepositoryMemory } from '@/infra/repositories';
 
 export class ListPostsControllerFactory {
   public static create(): ListPostsController {

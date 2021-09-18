@@ -1,6 +1,6 @@
 import { DeletePostUseCase } from '@/application/useCases';
 import { DeletePostController } from '@/presentation/controllers';
-import { PostsRepositoryMemory } from '../repositories';
+import { PostsRepositoryMemory } from '@/infra/repositories';
 
 export class DeletePostControllerFactory {
   public static create(): DeletePostController {
